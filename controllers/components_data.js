@@ -256,6 +256,7 @@ res.json(result);
  router.post('/attachment', async (req, res) => {  
     try{
        var axios = require('axios');
+       console.log('text')
        console.log(req.body)
 var config = {
     method: 'post',
