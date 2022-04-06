@@ -66,7 +66,7 @@ app.get('*', function(req, res){
     res.status(404).json("Page not found");
 });
 
-let port = 8060;
+let port = 7015;
 //start app
 app.listen(port, () => {
     console.log('Server is up and running on port: ' + port);
