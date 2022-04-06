@@ -17,7 +17,7 @@ RUN npm install
 # Bundle app source
 COPY . /usr/src/app
 
-EXPOSE 4012
+EXPOSE 7015
 
 # Change this to whatever is the executable, it could be either server.js or app.js
 CMD [ "node", "app.js" ]
