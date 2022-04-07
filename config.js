@@ -1,37 +1,7 @@
 var config = {
-<<<<<<< HEAD
-	app: {
-		name: "Easyaspataal",
-		url: "http://localhost:8060",
-		frontendUrl: "http://localhost:8060",
-		secret: "15f75c4f11a6e4d5075986dd0284fffc",
-		language: "english",
-		publicDir: "assets",
-	},
-	meta: {
-		author:"",
-		description: "__metadescription",
-		charset: "UTF-8",
-	},
-	auth: {
-		jwtDuration: 240, //in minutes
-		otpDuration: 5, //in minutes
-	},
-	database: {
-		name:"postgres",
-		type: "postgres",
-		host: "localhost",
-		username: "postgres",
-		password: "sampat",
-		port: "5432",
-		charset: "utf8",
-		recordlimit: 10,
-		ordertype: "DESC"
-	},
-=======
 app: {
         name: "Easyaspataal",
-        url: "35.200.253.165",
+        url: "https://dashboard-7k5qcren2q-el.a.run.app/",
         frontendUrl: "https://s3.ap-south-1.amazonaws.com/hospital.easyaspataal.com/index.html#/",
         secret: "15f75c4f11a6e4d5075986dd0284fffc",
         language: "english",
@@ -57,7 +27,6 @@ app: {
         recordlimit: 10,
         ordertype: "DESC"
     },
->>>>>>> 6603869ba3f177043b360629c71f6d40e3d3879c
 	mail: {
 		username:"",
 		password: "",
