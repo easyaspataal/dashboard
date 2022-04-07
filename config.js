@@ -1,28 +1,32 @@
 var config = {
-	app: {
-		name: "Easy Aspataal",
-		url: "35.200.253.165",
-		frontendUrl: "https://agent.easyaspataal.com/#/",
-		secret: "55f367154d07d7bd1c50637eb00091b0",
-		language: "english",
-		publicDir: "assets",
-	},
-	meta: {
-		author:"",
-		description: "__metadescription",
-		charset: "UTF-8",
-	},
-	database: {
-		name:"easy_aspataal",
-		type: "postgres",
-		host: "easyaspataal-staging.cluster-cbqgtf1hzzqq.ap-south-1.rds.amazonaws.com",
-		username: "easy_admin",
-		password: "EasyAspatal1212",
-		port: "5432",
-		charset: "utf8",
-		recordlimit: 10,
-		ordertype: "DESC"
-	},
+app: {
+        name: "Easyaspataal",
+        url: "35.200.253.165",
+        frontendUrl: "https://s3.ap-south-1.amazonaws.com/hospital.easyaspataal.com/index.html#/",
+        secret: "15f75c4f11a6e4d5075986dd0284fffc",
+        language: "english",
+        publicDir: "assets",
+    },
+    meta: {
+        author:"",
+        description: "__metadescription",
+        charset: "UTF-8",
+    },
+    auth: {
+        jwtDuration: 240, //in minutes
+        otpDuration: 5, //in minutes
+    },
+    database: {
+        name:"ea_hospital_dashboard",
+        type: "postgres",
+        host: "easyaspataal-staging.cluster-cbqgtf1hzzqq.ap-south-1.rds.amazonaws.com",
+        username: "easy_admin",
+        password: "EasyAspatal1212",
+        port: "5432",
+        charset: "utf8",
+        recordlimit: 10,
+        ordertype: "DESC"
+    },
 	mail: {
 		username:"",
 		password: "",
