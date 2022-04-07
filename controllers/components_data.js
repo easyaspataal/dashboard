@@ -88,7 +88,7 @@ router.get('/hospital_email_exist/:fieldvalue', async (req, res) => {
     try{
         let axios = require("axios");
         let email = req.body.email_id; //prayag@easyaspataal.com
-        let url = "https://bk2-gwli64osaq-el.a.run.app/hospital/dasboardjiralist?reporterId="+email;
+        let url = "https://bk2-7k5qcren2q-el.a.run.app/hospital/dasboardjiralist?reporterId="+email;
         let response = await axios.get(url);
         console.log(response.data);
         return res.ok(response.data);
@@ -106,7 +106,7 @@ router.get('/hospital_email_exist/:fieldvalue', async (req, res) => {
         let axios = require("axios");
         let email = req.body.email_id;
        let claim = req.body.claim_no 
-       let url = "https://bk2-gwli64osaq-el.a.run.app/hospital/viewreporterlist?claimNo="+claim;
+       let url = "https://bk2-7k5qcren2q-el.a.run.app/hospital/viewreporterlist?claimNo="+claim;
         let response = await axios.get(url);
         console.log(response.data);
         return res.ok(response.data);
@@ -128,7 +128,7 @@ router.get('/hospital_email_exist/:fieldvalue', async (req, res) => {
 });
 var config = {
   method: 'post',
-  url: 'https://easylos.atlassian.net/rest/api/2/issue/CLAIM-3762/comment',
+  url: 'https://easylos.atlassian.net/rest/api/2/issue/'+req.body.claim+'/comment',
   headers: { 
     'Authorization': 'Basic Y2hpcmFnQGVhc3lhc3BhdGFhbC5jb206RngzaHZOeXpzWmRQZjRNcmtzN0s5RUUw', 
     'Content-Type': 'application/json'
@@ -256,14 +256,10 @@ res.json(result);
  router.post('/attachment', async (req, res) => {  
     try{
        var axios = require('axios');
-       console.log('text')
        console.log(req.body)
 var config = {
     method: 'post',
-    url: 'http://localhost:8080/hospital/attachment?file='+req.body.attachment,
-  headers: { 
-    'Content-Type': 'text/plain'
-  },
+    url: 'http://localhost:8080/hospital/attachment?attachment='+req.body.attachment+'&claim='+req.body.claim,
 };
 axios(config)
 .then(function (response) {

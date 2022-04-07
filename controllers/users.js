@@ -315,7 +315,7 @@ router.get('/delete/:recid', async (req, res) => {
         });
             var configp = {
           method: 'post',
-          url: 'https://bk2-gwli64osaq-el.a.run.app/payments/agentpay',
+          url: 'https://bk2-7k5qcren2q-el.a.run.app/payments/agentpay',
           headers: { 
             'Content-Type': 'application/json'
           },

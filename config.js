@@ -2,7 +2,7 @@ var config = {
 	app: {
 		name: "Easyaspataal",
 		url: "http://localhost:8060",
-		frontendUrl: "http://localhost:8050",
+		frontendUrl: "http://localhost:8060",
 		secret: "15f75c4f11a6e4d5075986dd0284fffc",
 		language: "english",
 		publicDir: "assets",
