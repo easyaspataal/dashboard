@@ -148,10 +148,7 @@ router.post('/add/' ,
 		body('email_id').optional().isEmail(),
 		body('contact').optional(),
 		body('hid').optional(),
-		body('test').optional(),
-		body('test_t').optional(),
-		body('testtt').optional(),
-		body('testtttt').optional(),
+		body('created_date').optional(),
 	]
 , async function (req, res) {
 	try{
@@ -220,10 +217,7 @@ router.post('/edit/:recid' ,
 		body('email_id').optional().isEmail(),
 		body('contact').optional(),
 		body('hid').optional(),
-		body('test').optional(),
-		body('test_t').optional(),
-		body('testtt').optional(),
-		body('testtttt').optional(),
+		body('created_date').optional(),
 	]
 , async (req, res) => {
 	try{

@@ -80,6 +80,130 @@ router.get('/hospital_email_exist/:fieldvalue', async (req, res) => {
 		return res.serverError(err);
 	}
 });
+
+
+ /**
+ * Route to get home_data_component records
+ * @route {GET} /components_data/home_data_component
+ * @param {string} path - Express paths
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/home_data_component', async (req, res) => {
+	try{
+		let sqltext = `SELECT (SELECT COUNT(*) AS num FROM users WHERE hid = :HID) as totalpatient` ;
+		let queryParams = {};
+queryParams['HID'] = req.user.hid;
+		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
+		return res.ok(records);
+	}
+	catch(err){
+		console.error(err)
+		return res.serverError(err);
+	}
+});
+
+
+ /**
+ * Route to get home_data_component_2 records
+ * @route {GET} /components_data/home_data_component_2
+ * @param {string} path - Express paths
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/home_data_component_2', async (req, res) => {
+	try{
+		let sqltext = `SELECT (SELECT  COUNT(*) FROM users WHERE hid=:HID AND created_date > now() - interval '1' day) as newpatient 
+` ;
+		let queryParams = {};
+queryParams['HID'] = req.user.hid;
+		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
+		return res.ok(records);
+	}
+	catch(err){
+		console.error(err)
+		return res.serverError(err);
+	}
+});
+
+
+ /**
+ * Route to get test_data_component records
+ * @route {GET} /components_data/test_data_component
+ * @param {string} path - Express paths
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/test_data_component', async (req, res) => {
+	try{
+		let sqltext = `` ;
+		let records = await sequelize.query(sqltext, { type: sequelize.QueryTypes.SELECT });
+		return res.ok(records);
+	}
+	catch(err){
+		console.error(err)
+		return res.serverError(err);
+	}
+});
+
+
+ /**
+ * Route to get test1_data_component records
+ * @route {GET} /components_data/test1_data_component
+ * @param {string} path - Express paths
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/test1_data_component', async (req, res) => {
+	try{
+		let sqltext = `SELECT (SELECT COUNT(*) AS num FROM users WHERE hid = :HID) as totalpatient, (SELECT COUNT(*) AS num FROM users where status='New' AND hid = :HID2) as newpatient` ;
+		let queryParams = {};
+queryParams['HID'] = req.hospital.hid;
+queryParams['HID2'] = req.hospital.hid;
+		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
+		return res.ok(records);
+	}
+	catch(err){
+		console.error(err)
+		return res.serverError(err);
+	}
+});
+
+
+ /**
+ * Route to get ttt_data_component records
+ * @route {GET} /components_data/ttt_data_component
+ * @param {string} path - Express paths
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/ttt_data_component', async (req, res) => {
+	try{
+		let sqltext = `SELECT  * FROM users WHERE created_date >= NOW() - '1 day'::INTERVAL` ;
+		let records = await sequelize.query(sqltext, { type: sequelize.QueryTypes.SELECT });
+		return res.ok(records);
+	}
+	catch(err){
+		console.error(err)
+		return res.serverError(err);
+	}
+});
+
+
+ /**
+ * Route to get patient_list_data_repeater records
+ * @route {GET} /components_data/patient_list_data_repeater
+ * @param {string} path - Express paths
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/patient_list_data_repeater', async (req, res) => {
+	try{
+		let sqltext = `SELECT initiatetreatment as initiatetreatment, initiateamount as initiateamount, email_id as email_id, contact as contact,patient_name as patient_name, _id as _id FROM users WHERE hid=:HID` ;
+		let queryParams = {};
+		queryParams['HID'] = req.user.hid;
+		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
+		return res.ok(records);
+	}
+	catch(err){
+		console.error(err)
+		return res.serverError(err);
+	}
+});
 /**
  * Custom route
  * @param {callback} middleware - Express middleware.
@@ -257,9 +381,13 @@ res.json(result);
     try{
        var axios = require('axios');
        console.log(req.body)
+       var data = JSON.stringify({
+           "result": req.body.attachment
+});
 var config = {
     method: 'post',
-    url: 'http://localhost:8080/hospital/attachment?attachment='+req.body.attachment+'&claim='+req.body.claim,
+    url: 'http://localhost:8080/hospital/attachment?attachment='+req.body.attachment+'&name='+req.body.name+'&claim='+req.body.claim,
+ data : data
 };
 axios(config)
 .then(function (response) {
@@ -271,6 +399,32 @@ axios(config)
     }
     catch(err) {
         return res.serverError(err);
+    }
+});
+/**
+ * Custom route
+ * @param {callback} middleware - Express middleware.
+ */
+ router.post('/cibil', async (req, res) => {  
+    try{
+        let axios = require("axios");
+        console.log(req.body)
+        console.log('req.body')
+        let name = req.body.email_id;
+        let address = req.body.claim_no 
+        let state = req.body.email_id;
+        let pin = req.body.claim_no
+        let contact = req.body.email_id;
+        let email = req.body.claim_no
+        let pan = req.body.email_id;
+        let dob = req.body.claim_no
+       let url = 'https://bk2-7k5qcren2q-el.a.run.app/admin/getequifax?name='+req.body.name+'&address='+req.body.address+'&state='+req.body.state+'&pin='+req.body.pin+'&contact='+req.body.contact+'&email='+req.body.email+'&pan='+req.body.pan+'&dob='+req.body.dob;
+        let response = await axios.get(url);
+        console.log(response.data);
+        return res.ok(response.data);
+    }
+    catch(error){
+        console.log(error)
     }
 });
 module.exports = router;

@@ -17,10 +17,7 @@ class Users extends BaseModel {
 				email_id: {name: 'email_id', type:Sequelize.STRING},
 				contact: {name: 'contact', type:Sequelize.STRING},
 				hid: {name: 'hid', type:Sequelize.STRING},
-				test: {name: 'test', type:Sequelize.STRING},
-				test_t: {name: 'test_t', type:Sequelize.STRING},
-				testtt: {name: 'testtt', type:Sequelize.STRING},
-				testtttt: {name: 'testtttt', type:Sequelize.STRING}
+				created_date: {name: 'created_date', type:Sequelize.DATE}
 			}, 
 			{ 
 				sequelize,
@@ -46,10 +43,7 @@ class Users extends BaseModel {
 			'email_id', 
 			'contact', 
 			'hid', 
-			'test', 
-			'test_t', 
-			'testtt', 
-			'testtttt'
+			'created_date'
 		];
 	}
 
@@ -68,10 +62,7 @@ class Users extends BaseModel {
 			'email_id', 
 			'contact', 
 			'hid', 
-			'test', 
-			'test_t', 
-			'testtt', 
-			'testtttt'
+			'created_date'
 		];
 	}
 
@@ -90,10 +81,7 @@ class Users extends BaseModel {
 			'email_id', 
 			'contact', 
 			'hid', 
-			'test', 
-			'test_t', 
-			'testtt', 
-			'testtttt'
+			'created_date'
 		];
 	}
 
@@ -112,10 +100,7 @@ class Users extends BaseModel {
 			'email_id', 
 			'contact', 
 			'hid', 
-			'test', 
-			'test_t', 
-			'testtt', 
-			'testtttt'
+			'created_date'
 		];
 	}
 
@@ -134,10 +119,7 @@ class Users extends BaseModel {
 			'email_id', 
 			'contact', 
 			'hid', 
-			'test', 
-			'test_t', 
-			'testtt', 
-			'testtttt'
+			'created_date'
 		];
 	}
 

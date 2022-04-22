@@ -55,18 +55,14 @@ app.use('/api', async (req, res, next) => {
 	return res.unauthorized();
 });
 app.use('/api/account', require('./controllers/account.js'));
-app.use('/api/employees', require('./controllers/employees.js'))
 app.use('/api/hospital', require('./controllers/hospital.js'))
-app.use('/api/leads', require('./controllers/leads.js'))
-app.use('/api/patient', require('./controllers/patient.js'))
-app.use('/api/people', require('./controllers/people.js'))
-app.use('/api/testing', require('./controllers/testing.js'))
+app.use('/api/hospitalss', require('./controllers/hospitalss.js'))
 app.use('/api/users', require('./controllers/users.js'))
 app.get('*', function(req, res){
     res.status(404).json("Page not found");
 });
 
-let port = 7015;
+let port = 8060;
 //start app
 app.listen(port, () => {
     console.log('Server is up and running on port: ' + port);

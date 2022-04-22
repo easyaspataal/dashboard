@@ -27,23 +27,15 @@ Sequelize.DATE.prototype._stringify = function _stringify(date, options) {
 	return this._applyTimezone(date, options).format('YYYY-MM-DD HH:mm:ss');
 };
 
-const Employees =  require("./employees").init(sequelize, Sequelize);
 const Hospital =  require("./hospital").init(sequelize, Sequelize);
-const Leads =  require("./leads").init(sequelize, Sequelize);
-const Patient =  require("./patient").init(sequelize, Sequelize);
-const People =  require("./people").init(sequelize, Sequelize);
-const Testing =  require("./testing").init(sequelize, Sequelize);
+const Hospitalss =  require("./hospitalss").init(sequelize, Sequelize);
 const Users =  require("./users").init(sequelize, Sequelize);
 
 const Op = Sequelize.Op;
 module.exports = {
 	sequelize,
 	Op,
-	Employees,
 	Hospital,
-	Leads,
-	Patient,
-	People,
-	Testing,
+	Hospitalss,
 	Users
 }

@@ -1,5 +1,5 @@
-/** Express router providing Hospital related routes
- * @module routers/Hospital
+/** Express router providing Hospitalss related routes
+ * @module routers/Hospitalss
  * @requires express
  * @requires config - app config
  * @requires utils - app utils functions
@@ -45,11 +45,11 @@ const { body, validationResult } = require('express-validator');
 
 
 /**
- * Hospital models
+ * Hospitalss models
  * @const
  */
 const models = require('../models/index.js');
-const Hospital = models.Hospital;
+const Hospitalss = models.Hospitalss;
 
 
 const sequelize = models.sequelize; // sequelize functions and operations
@@ -59,8 +59,8 @@ const Op = models.Op; // sequelize query operators
 
 
 /**
- * Route to list hospital records
- * @route {GET} /hospital/index/{fieldname}/{fieldvalue}
+ * Route to list hospitalss records
+ * @route {GET} /hospitalss/index/{fieldname}/{fieldvalue}
  * @param {array} path - Array of express paths
  * @param {callback} middleware - Express middleware.
  */
@@ -80,7 +80,7 @@ router.get(['/', '/index/:fieldname?/:fieldvalue?'], async (req, res) => {
 		}
 		let search = req.query.search;
 		if(search){
-			let searchFields = Hospital.searchFields();
+			let searchFields = Hospitalss.searchFields();
 			where[Op.or] = searchFields;
 			replacements.search = `%${search}%`;
 		}
@@ -89,11 +89,11 @@ router.get(['/', '/index/:fieldname?/:fieldvalue?'], async (req, res) => {
 		query.raw = true;
 		query.where = where;
 		query.replacements = replacements;
-		query.order = Hospital.getOrderBy(req);
-		query.attributes = Hospital.listFields();
+		query.order = Hospitalss.getOrderBy(req);
+		query.attributes = Hospitalss.listFields();
 		let page = parseInt(req.query.page) || 1;
 		let limit = parseInt(req.query.limit) || 20;
-		let result = await Hospital.paginate(query, page, limit);
+		let result = await Hospitalss.paginate(query, page, limit);
 		return res.ok(result);
 	}
 	catch(err) {
@@ -103,8 +103,8 @@ router.get(['/', '/index/:fieldname?/:fieldvalue?'], async (req, res) => {
 
 
 /**
- * Route to view Hospital record
- * @route {GET} /hospital/view/{recid}
+ * Route to view Hospitalss record
+ * @route {GET} /hospitalss/view/{recid}
  * @param {array} path - Array of express paths
  * @param {callback} middleware - Express middleware.
  */
@@ -116,8 +116,8 @@ router.get(['/view/:recid'], async (req, res) => {
 		where['_id'] = recid;
 		query.raw = true;
 		query.where = where;
-		query.attributes = Hospital.viewFields();
-		let record = await Hospital.findOne(query);
+		query.attributes = Hospitalss.viewFields();
+		let record = await Hospitalss.findOne(query);
 		if(!record){
 			return res.notFound();
 		}
@@ -130,21 +130,65 @@ router.get(['/view/:recid'], async (req, res) => {
 
 
 /**
- * Route to insert Hospital record
- * @route {POST} /hospital/add
+ * Route to insert Hospitalss record
+ * @route {POST} /hospitalss/add
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
 router.post('/add/' , 
 	[
-		body('hid').not().isEmpty(),
-		body('email').not().isEmpty().isEmail(),
-		body('password').not().isEmpty(),
+		body('created_date').optional(),
+		body('modified_date').optional(),
+		body('hid').optional(),
+		body('name').optional(),
+		body('payment_id').optional(),
+		body('email').optional().isEmail(),
+		body('address').optional(),
+		body('tagline').optional(),
+		body('city').optional(),
+		body('ownership').optional(),
+		body('type').optional(),
+		body('accreditation').optional(),
+		body('registration_no').optional(),
+		body('about').optional(),
+		body('state').optional(),
+		body('website').optional(),
+		body('latitude').optional(),
+		body('longitude').optional(),
+		body('insurance_accepted').optional(),
+		body('patients_per_day').optional(),
+		body('emergency_service').optional(),
+		body('medical_tourisum_accepted').optional(),
+		body('password').optional(),
 		body('confirm_password', 'Passwords do not match').custom((value, {req}) => (value === req.body.password)),
-		body('bank_details_account_no').optional(),
-		body('bank_details_bank_name').optional(),
-		body('bank_details_ifsc_code').optional(),
-		body('bank_details_payee_name').optional(),
+		body('status').optional(),
+		body('url').optional(),
+		body('poc').optional(),
+		body('rooms').optional(),
+		body('insurance').optional(),
+		body('token').optional(),
+		body('tpa').optional(),
+		body('bank_details').optional(),
+		body('hospital_logo').optional(),
+		body('district').optional(),
+		body('avg_patients').optional(),
+		body('tv_installed').optional(),
+		body('specialties').optional(),
+		body('facilities').optional(),
+		body('ayush').optional(),
+		body('contact').optional(),
+		body('pincode').optional(),
+		body('icu_beds').optional(),
+		body('_v').optional(),
+		body('branches').optional(),
+		body('beds').optional(),
+		body('staff').optional(),
+		body('ventilator_beds').optional(),
+		body('doctors').optional(),
+		body('rohini_id').optional(),
+		body('logo').optional(),
+		body('test').optional(),
+		body('test1').optional(),
 	]
 , async function (req, res) {
 	try{
@@ -155,17 +199,9 @@ router.post('/add/' ,
 		}
 		let modeldata = req.body;
 		modeldata.password = utils.passwordHash(modeldata.password);
-		let hidCount = await Hospital.count({ where:{ 'hid': modeldata.hid } });
-		if(hidCount > 0){
-			return res.badRequest(`${modeldata.hid} already exist.`);
-		}
-		let emailCount = await Hospital.count({ where:{ 'email': modeldata.email } });
-		if(emailCount > 0){
-			return res.badRequest(`${modeldata.email} already exist.`);
-		}
 		
-		//save Hospital record
-		let record = await Hospital.create(modeldata);
+		//save Hospitalss record
+		let record = await Hospitalss.create(modeldata);
 		//await record.reload(); //reload the record from database
 		let recid =  record['_id'];
 		
@@ -177,8 +213,8 @@ router.post('/add/' ,
 
 
 /**
- * Route to get  Hospital record for edit
- * @route {GET} /hospital/edit/{recid}
+ * Route to get  Hospitalss record for edit
+ * @route {GET} /hospitalss/edit/{recid}
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
@@ -190,8 +226,8 @@ router.get('/edit/:recid', async (req, res) => {
 		where['_id'] = recid;
 		query.raw = true;
 		query.where = where;
-		query.attributes = Hospital.editFields();
-		let record = await Hospital.findOne(query);
+		query.attributes = Hospitalss.editFields();
+		let record = await Hospitalss.findOne(query);
 		if(!record){
 			return res.notFound();
 		}
@@ -204,20 +240,63 @@ router.get('/edit/:recid', async (req, res) => {
 
 
 /**
- * Route to update  Hospital record
- * @route {POST} /hospital/edit/{recid}
+ * Route to update  Hospitalss record
+ * @route {POST} /hospitalss/edit/{recid}
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
 router.post('/edit/:recid' , 
 	[
-		body('hid').optional({nullable: true}).not().isEmpty(),
+		body('created_date').optional(),
+		body('modified_date').optional(),
+		body('hid').optional(),
 		body('name').optional(),
+		body('payment_id').optional(),
+		body('email').optional().isEmail(),
+		body('address').optional(),
+		body('tagline').optional(),
+		body('city').optional(),
+		body('ownership').optional(),
+		body('type').optional(),
+		body('accreditation').optional(),
+		body('registration_no').optional(),
+		body('about').optional(),
+		body('state').optional(),
+		body('website').optional(),
+		body('latitude').optional(),
+		body('longitude').optional(),
+		body('insurance_accepted').optional(),
+		body('patients_per_day').optional(),
+		body('emergency_service').optional(),
+		body('medical_tourisum_accepted').optional(),
+		body('status').optional(),
+		body('url').optional(),
+		body('poc').optional(),
+		body('rooms').optional(),
+		body('insurance').optional(),
+		body('token').optional(),
+		body('tpa').optional(),
+		body('bank_details').optional(),
+		body('hospital_logo').optional(),
+		body('district').optional(),
+		body('avg_patients').optional(),
+		body('tv_installed').optional(),
+		body('specialties').optional(),
+		body('facilities').optional(),
+		body('ayush').optional(),
 		body('contact').optional(),
-		body('bank_details_account_no').optional(),
-		body('bank_details_bank_name').optional(),
-		body('bank_details_ifsc_code').optional(),
-		body('bank_details_payee_name').optional(),
+		body('pincode').optional(),
+		body('icu_beds').optional(),
+		body('_v').optional(),
+		body('branches').optional(),
+		body('beds').optional(),
+		body('staff').optional(),
+		body('ventilator_beds').optional(),
+		body('doctors').optional(),
+		body('rohini_id').optional(),
+		body('logo').optional(),
+		body('test').optional(),
+		body('test1').optional(),
 	]
 , async (req, res) => {
 	try{
@@ -228,21 +307,17 @@ router.post('/edit/:recid' ,
 		}
 		let recid = req.params.recid;
 		let modeldata = req.body;
-		let hidCount = await Hospital.count({where:{'hid': modeldata.hid, '_id': {[Op.ne]: recid} }});
-		if(hidCount > 0){
-			return res.badRequest(`${modeldata.hid} already exist.`);
-		}
 		let query = {};
 		let where = {};
 		where['_id'] = recid;
 		query.raw = true;
 		query.where = where;
-		query.attributes = Hospital.editFields();
-		let record = await Hospital.findOne(query);
+		query.attributes = Hospitalss.editFields();
+		let record = await Hospitalss.findOne(query);
 		if(!record){
 			return res.notFound();
 		}
-		await Hospital.update(modeldata, {where: where});
+		await Hospitalss.update(modeldata, {where: where});
 		return res.ok(modeldata);
 	}
 	catch(err){
@@ -252,9 +327,9 @@ router.post('/edit/:recid' ,
 
 
 /**
- * Route to delete Hospital record by table primary key
+ * Route to delete Hospitalss record by table primary key
  * Multi delete supported by recid separated by comma(,)
- * @route {GET} /hospital/delete/{recid}
+ * @route {GET} /hospitalss/delete/{recid}
  * @param {array} path - Array of express paths
  * @param {callback} middleware - Express middleware.
  */
@@ -267,11 +342,11 @@ router.get('/delete/:recid', async (req, res) => {
 		where['_id'] = recid;
 		query.raw = true;
 		query.where = where;
-		let records = await Hospital.findAll(query);
+		let records = await Hospitalss.findAll(query);
 		records.forEach(async (record) => { 
 			//perform action on each record before delete
 		});
-		await Hospital.destroy(query);
+		await Hospitalss.destroy(query);
 		return res.ok(recid);
 	}
 	catch(err){
