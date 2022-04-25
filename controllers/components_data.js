@@ -83,6 +83,36 @@ router.get('/hospital_email_exist/:fieldvalue', async (req, res) => {
 
 
  /**
+ * Route to get doughnutchart_revenue records
+ * @route {GET} /components_data/doughnutchart_revenue
+ * @param {string} path - Express paths
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/doughnutchart_revenue',  async (req, res) => {
+	let chartData = { labels:[], datasets:[] };
+	try{
+		let sqltext = `SELECT sum(initiateamount) as initiateamount, TO_CHAR(created_date, 'Month') AS month, EXTRACT(YEAR FROM created_date) AS year FROM users WHERE hid=:HID group by year, month order by TO_CHAR(created_date, 'Month')` ;
+		let queryParams = {};
+queryParams['HID'] = req.user.hid;
+		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
+		chartData['labels'] = records.map(function(v){ return v.month });
+		let dataset1 = {
+			data: records.map(function(v){ return parseFloat(v.initiateamount) }),
+			label: "revenue",
+			backgroundColor: "#0077b5", 
+			borderColor: "#0077b5", 
+			borderWidth: "",
+		};
+		chartData.datasets.push(dataset1);
+		return res.ok(chartData) ;
+	}
+	catch(err) {
+		return res.serverError(err);
+	}
+});
+
+
+ /**
  * Route to get home_data_component records
  * @route {GET} /components_data/home_data_component
  * @param {string} path - Express paths
@@ -201,6 +231,34 @@ router.get('/patient_list_data_repeater', async (req, res) => {
 	}
 	catch(err){
 		console.error(err)
+		return res.serverError(err);
+	}
+});
+
+
+ /**
+ * Route to get doughnutchart_revenue_2 records
+ * @route {GET} /components_data/doughnutchart_revenue_2
+ * @param {string} path - Express paths
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/doughnutchart_revenue_2',  async (req, res) => {
+	let chartData = { labels:[], datasets:[] };
+	try{
+		let sqltext = `SELECT initiateamount as initiateamount FROM users WHERE hid='HS100009'` ;
+		let records = await sequelize.query(sqltext, { type: sequelize.QueryTypes.SELECT });
+		chartData['labels'] = records.map(function(v){ return v.initiateamount });
+		let dataset1 = {
+			data: records.map(function(v){ return parseFloat(v.initiateamount) }),
+			label: "Amount",
+			backgroundColor: utils.randomColor(), 
+			borderColor: utils.randomColor(), 
+			borderWidth: "",
+		};
+		chartData.datasets.push(dataset1);
+		return res.ok(chartData) ;
+	}
+	catch(err) {
 		return res.serverError(err);
 	}
 });
