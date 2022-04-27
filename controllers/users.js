@@ -329,4 +329,27 @@ router.get('/delete/:recid', async (req, res) => {
         console.log(error)
     }
 });
+/**
+ * Custom route
+ * @param {callback} middleware - Express middleware.
+ */
+ router.post('/share', async (req, res) => {  
+   try{
+        let response = {success: false, msg: 'Error Adding Patient.'};
+        let where = {'hid': req.body.hid};
+        let record = await Users.findAll({where: where});
+        console.log(record)
+        return res.ok(response);
+          let axios = require("axios");
+        console.log('test')
+var config = {
+  method: 'post',
+  url: "http://localhost:8080/admin/cam?details="+reccord,
+};
+  axios(config)    
+    }
+    catch(err) {
+        return res.serverError(err);
+    }
+});
 module.exports = router;

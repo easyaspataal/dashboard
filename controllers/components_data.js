@@ -83,36 +83,6 @@ router.get('/hospital_email_exist/:fieldvalue', async (req, res) => {
 
 
  /**
- * Route to get doughnutchart_revenue records
- * @route {GET} /components_data/doughnutchart_revenue
- * @param {string} path - Express paths
- * @param {callback} middleware - Express middleware.
- */
-router.get('/doughnutchart_revenue',  async (req, res) => {
-	let chartData = { labels:[], datasets:[] };
-	try{
-		let sqltext = `SELECT sum(initiateamount) as initiateamount, TO_CHAR(created_date, 'Month') AS month, EXTRACT(YEAR FROM created_date) AS year FROM users WHERE hid=:HID group by year, month order by TO_CHAR(created_date, 'Month')` ;
-		let queryParams = {};
-queryParams['HID'] = req.user.hid;
-		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
-		chartData['labels'] = records.map(function(v){ return v.month });
-		let dataset1 = {
-			data: records.map(function(v){ return parseFloat(v.initiateamount) }),
-			label: "revenue",
-			backgroundColor: "#0077b5", 
-			borderColor: "#0077b5", 
-			borderWidth: "",
-		};
-		chartData.datasets.push(dataset1);
-		return res.ok(chartData) ;
-	}
-	catch(err) {
-		return res.serverError(err);
-	}
-});
-
-
- /**
  * Route to get home_data_component records
  * @route {GET} /components_data/home_data_component
  * @param {string} path - Express paths
@@ -120,7 +90,7 @@ queryParams['HID'] = req.user.hid;
  */
 router.get('/home_data_component', async (req, res) => {
 	try{
-		let sqltext = `SELECT (SELECT COUNT(*) AS num FROM users WHERE hid = :HID) as totalpatient` ;
+		let sqltext = `SELECT sum(initiateamount) as initiateamount FROM users WHERE hid=:HID` ;
 		let queryParams = {};
 queryParams['HID'] = req.user.hid;
 		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
@@ -141,6 +111,27 @@ queryParams['HID'] = req.user.hid;
  */
 router.get('/home_data_component_2', async (req, res) => {
 	try{
+		let sqltext = `SELECT (SELECT COUNT(*) AS num FROM users WHERE hid = :HID) as totalpatient` ;
+		let queryParams = {};
+queryParams['HID'] = req.user.hid;
+		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
+		return res.ok(records);
+	}
+	catch(err){
+		console.error(err)
+		return res.serverError(err);
+	}
+});
+
+
+ /**
+ * Route to get home_data_component_3 records
+ * @route {GET} /components_data/home_data_component_3
+ * @param {string} path - Express paths
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/home_data_component_3', async (req, res) => {
+	try{
 		let sqltext = `SELECT (SELECT  COUNT(*) FROM users WHERE hid=:HID AND created_date > now() - interval '1' day) as newpatient 
 ` ;
 		let queryParams = {};
@@ -150,6 +141,36 @@ queryParams['HID'] = req.user.hid;
 	}
 	catch(err){
 		console.error(err)
+		return res.serverError(err);
+	}
+});
+
+
+ /**
+ * Route to get barchart_revenue records
+ * @route {GET} /components_data/barchart_revenue
+ * @param {string} path - Express paths
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/barchart_revenue',  async (req, res) => {
+	let chartData = { labels:[], datasets:[] };
+	try{
+		let sqltext = `SELECT sum(initiateamount) as initiateamount, TO_CHAR(created_date, 'Month') AS month, EXTRACT(YEAR FROM created_date) AS year FROM users WHERE hid=:HID group by year, month order by TO_CHAR(created_date, 'Month')` ;
+		let queryParams = {};
+queryParams['HID'] = req.user.hid;
+		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
+		chartData['labels'] = records.map(function(v){ return v.month });
+		let dataset1 = {
+			data: records.map(function(v){ return parseFloat(v.initiateamount) }),
+			label: "Amount",
+			backgroundColor: "#0c065e", 
+			borderColor: "#0c065e", 
+			borderWidth: "",
+		};
+		chartData.datasets.push(dataset1);
+		return res.ok(chartData) ;
+	}
+	catch(err) {
 		return res.serverError(err);
 	}
 });
@@ -237,12 +258,12 @@ router.get('/patient_list_data_repeater', async (req, res) => {
 
 
  /**
- * Route to get doughnutchart_revenue_2 records
- * @route {GET} /components_data/doughnutchart_revenue_2
+ * Route to get doughnutchart_revenue records
+ * @route {GET} /components_data/doughnutchart_revenue
  * @param {string} path - Express paths
  * @param {callback} middleware - Express middleware.
  */
-router.get('/doughnutchart_revenue_2',  async (req, res) => {
+router.get('/doughnutchart_revenue',  async (req, res) => {
 	let chartData = { labels:[], datasets:[] };
 	try{
 		let sqltext = `SELECT initiateamount as initiateamount FROM users WHERE hid='HS100009'` ;
@@ -259,6 +280,27 @@ router.get('/doughnutchart_revenue_2',  async (req, res) => {
 		return res.ok(chartData) ;
 	}
 	catch(err) {
+		return res.serverError(err);
+	}
+});
+
+
+ /**
+ * Route to get testhome_data_repeater records
+ * @route {GET} /components_data/testhome_data_repeater
+ * @param {string} path - Express paths
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/testhome_data_repeater', async (req, res) => {
+	try{
+		let sqltext = `SELECT initiatetreatment as initiatetreatment, initiateamount as initiateamount, email_id as email_id, contact as contact,patient_name as patient_name, _id as _id FROM users WHERE hid=:HID` ;
+		let queryParams = {};
+queryParams['HID'] = req.user.hid;
+		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
+		return res.ok(records);
+	}
+	catch(err){
+		console.error(err)
 		return res.serverError(err);
 	}
 });
