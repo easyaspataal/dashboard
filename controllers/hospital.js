@@ -145,6 +145,7 @@ router.post('/add/' ,
 		body('bank_details_bank_name').optional(),
 		body('bank_details_ifsc_code').optional(),
 		body('bank_details_payee_name').optional(),
+		body('subvention_rate').optional(),
 	]
 , async function (req, res) {
 	try{
@@ -218,6 +219,7 @@ router.post('/edit/:recid' ,
 		body('bank_details_bank_name').optional(),
 		body('bank_details_ifsc_code').optional(),
 		body('bank_details_payee_name').optional(),
+		body('subvention_rate').optional(),
 	]
 , async (req, res) => {
 	try{

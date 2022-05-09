@@ -90,7 +90,8 @@ router.get('/hospital_email_exist/:fieldvalue', async (req, res) => {
  */
 router.get('/home_data_component', async (req, res) => {
 	try{
-		let sqltext = `SELECT sum(initiateamount) as initiateamount FROM users WHERE hid=:HID` ;
+		let sqltext = `SELECT sum(initiateamount) as initiateamount FROM users WHERE hid=:HID
+` ;
 		let queryParams = {};
 queryParams['HID'] = req.user.hid;
 		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
@@ -132,8 +133,7 @@ queryParams['HID'] = req.user.hid;
  */
 router.get('/home_data_component_3', async (req, res) => {
 	try{
-		let sqltext = `SELECT (SELECT  COUNT(*) FROM users WHERE hid=:HID AND created_date > now() - interval '1' day) as newpatient 
-` ;
+		let sqltext = `SELECT (SELECT  COUNT(*) FROM users WHERE hid=:HID AND created_date > now() - interval '1' day) as newpatient` ;
 		let queryParams = {};
 queryParams['HID'] = req.user.hid;
 		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
@@ -280,27 +280,6 @@ router.get('/doughnutchart_revenue',  async (req, res) => {
 		return res.ok(chartData) ;
 	}
 	catch(err) {
-		return res.serverError(err);
-	}
-});
-
-
- /**
- * Route to get testhome_data_repeater records
- * @route {GET} /components_data/testhome_data_repeater
- * @param {string} path - Express paths
- * @param {callback} middleware - Express middleware.
- */
-router.get('/testhome_data_repeater', async (req, res) => {
-	try{
-		let sqltext = `SELECT initiatetreatment as initiatetreatment, initiateamount as initiateamount, email_id as email_id, contact as contact,patient_name as patient_name, _id as _id FROM users WHERE hid=:HID` ;
-		let queryParams = {};
-queryParams['HID'] = req.user.hid;
-		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
-		return res.ok(records);
-	}
-	catch(err){
-		console.error(err)
 		return res.serverError(err);
 	}
 });
@@ -501,30 +480,89 @@ axios(config)
         return res.serverError(err);
     }
 });
-/**
- * Custom route
- * @param {callback} middleware - Express middleware.
- */
  router.post('/cibil', async (req, res) => {  
     try{
         let axios = require("axios");
-        console.log(req.body)
-        console.log('req.body')
-        let name = req.body.email_id;
-        let address = req.body.claim_no 
-        let state = req.body.email_id;
-        let pin = req.body.claim_no
-        let contact = req.body.email_id;
-        let email = req.body.claim_no
-        let pan = req.body.email_id;
-        let dob = req.body.claim_no
        let url = 'https://bk2-7k5qcren2q-el.a.run.app/admin/getequifax?name='+req.body.name+'&address='+req.body.address+'&state='+req.body.state+'&pin='+req.body.pin+'&contact='+req.body.contact+'&email='+req.body.email+'&pan='+req.body.pan+'&dob='+req.body.dob;
         let response = await axios.get(url);
-        console.log(response.data);
         return res.ok(response.data);
     }
     catch(error){
         console.log(error)
+    }
+});
+/**
+ * Custom route
+ * @param {callback} middleware - Express middleware.
+ */
+ router.post('/otpmail', async (req, res) => {  
+    try{
+        console.log(req.body)
+        let mailer = require('../helpers/mailer.js');
+        let mailtitle = "OTP VERIFICATION";
+        let mailbody = req.body.otp;
+        let recipient = "sampat@easyaspataal.com";
+        let mailResult = await mailer.sendMail(recipient, mailtitle , mailbody);
+        if(mailResult.messageId){
+            console.log("Email Sent");
+        }
+        else{
+            console.log(mailResult.error);
+        }
+    }
+    catch(error){
+        console.log(error)
+    }
+});
+router.post('/collection', async (req, res) => {
+    try{
+        let axios = require("axios");
+        console.log(req.body.start);
+var config = {
+  method: 'get',
+  url: 'http://easylos.atlassian.net/rest/api/2/search?jql=status!="Ignore%20Mails"&reporter='+`'${req.body.email}'`,
+  headers: {
+    'Authorization': 'Basic Y2hpcmFnQGVhc3lhc3BhdGFhbC5jb206RngzaHZOeXpzWmRQZjRNcmtzN0s5RUUw'
+  }
+};
+axios(config)
+.then(function (response) {
+    var amountarr = [];
+    var datearr = [];
+    var keyarr = [];
+    var statusarr = [];
+    response.data.issues.map((issue, index) => {
+const amountresult = issue.fields.customfield_10182
+amountarr.push(amountresult)
+const dateresult = issue.fields.customfield_10090
+datearr.push(dateresult)
+ const keyresult = issue.key;
+ keyarr.push(keyresult)
+ const statusresult = issue.fields.status.name;
+ statusarr.push(statusresult);
+    })
+var items = keyarr.map((keyarr, index) => {
+    return { 
+      key: keyarr,
+      status: statusarr[index],
+      amount : amountarr[index],
+      date: datearr[index],
+    }
+  });
+    const result = {
+    code: 200,
+    status: true,
+    message:items
+}
+res.json(result);
+console.log("rendeing");
+})
+.catch(function (error) {
+  console.log(error);
+});
+    }
+    catch(err) {
+        return res.serverError(err);
     }
 });
 module.exports = router;

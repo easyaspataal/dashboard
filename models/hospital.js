@@ -14,7 +14,8 @@ class Hospital extends BaseModel {
 				bank_details_account_no: {name: 'bank_details_account_no', type:Sequelize.STRING},
 				bank_details_bank_name: {name: 'bank_details_bank_name', type:Sequelize.STRING},
 				bank_details_ifsc_code: {name: 'bank_details_ifsc_code', type:Sequelize.STRING},
-				bank_details_payee_name: {name: 'bank_details_payee_name', type:Sequelize.STRING}
+				bank_details_payee_name: {name: 'bank_details_payee_name', type:Sequelize.STRING},
+				subvention_rate: {name: 'subvention_rate', type:Sequelize.STRING}
 			}, 
 			{ 
 				sequelize,
@@ -36,7 +37,8 @@ class Hospital extends BaseModel {
 			'bank_details_account_no', 
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
-			'bank_details_payee_name'
+			'bank_details_payee_name', 
+			'subvention_rate'
 		];
 	}
 
@@ -51,7 +53,8 @@ class Hospital extends BaseModel {
 			'bank_details_account_no', 
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
-			'bank_details_payee_name'
+			'bank_details_payee_name', 
+			'subvention_rate'
 		];
 	}
 
@@ -66,7 +69,8 @@ class Hospital extends BaseModel {
 			'bank_details_account_no', 
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
-			'bank_details_payee_name'
+			'bank_details_payee_name', 
+			'subvention_rate'
 		];
 	}
 
@@ -81,7 +85,8 @@ class Hospital extends BaseModel {
 			'bank_details_account_no', 
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
-			'bank_details_payee_name'
+			'bank_details_payee_name', 
+			'subvention_rate'
 		];
 	}
 
@@ -96,7 +101,8 @@ class Hospital extends BaseModel {
 			'bank_details_account_no', 
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
-			'bank_details_payee_name'
+			'bank_details_payee_name', 
+			'subvention_rate'
 		];
 	}
 
@@ -111,7 +117,8 @@ class Hospital extends BaseModel {
 			'bank_details_account_no', 
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
-			'bank_details_payee_name'
+			'bank_details_payee_name', 
+			'subvention_rate'
 		];
 	}
 
@@ -126,7 +133,8 @@ class Hospital extends BaseModel {
 			'bank_details_account_no', 
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
-			'bank_details_payee_name'
+			'bank_details_payee_name', 
+			'subvention_rate'
 		];
 	}
 
@@ -140,7 +148,8 @@ class Hospital extends BaseModel {
 			'bank_details_account_no', 
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
-			'bank_details_payee_name'
+			'bank_details_payee_name', 
+			'subvention_rate'
 		];
 	}
 
@@ -155,7 +164,8 @@ class Hospital extends BaseModel {
 			sequelize.literal("bank_details_account_no iLIKE :search"), 
 			sequelize.literal("bank_details_bank_name iLIKE :search"), 
 			sequelize.literal("bank_details_ifsc_code iLIKE :search"), 
-			sequelize.literal("bank_details_payee_name iLIKE :search"),
+			sequelize.literal("bank_details_payee_name iLIKE :search"), 
+			sequelize.literal("subvention_rate iLIKE :search"),
 		];
 	}
 

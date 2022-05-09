@@ -7,7 +7,7 @@ class Users extends BaseModel {
 				
 				_id: { type: Sequelize.INTEGER, primaryKey: true , autoIncrement: true },
 				initiatetreatment: {name: 'initiatetreatment', type:Sequelize.STRING},
-				initiateamount: {name: 'initiateamount', type:Sequelize.STRING},
+				initiateamount: {name: 'initiateamount', type:Sequelize.DECIMAL},
 				age: {name: 'age', type:Sequelize.STRING},
 				approved: {name: 'approved', type:Sequelize.STRING},
 				reason: {name: 'reason', type:Sequelize.STRING},
@@ -128,7 +128,7 @@ class Users extends BaseModel {
 		let sequelize = this.sequelize;
 		return [
 			sequelize.literal("initiatetreatment iLIKE :search"), 
-			sequelize.literal("initiateamount iLIKE :search"), 
+			sequelize.literal("CAST(initiateamount AS TEXT) iLIKE :search"), 
 			sequelize.literal("age iLIKE :search"), 
 			sequelize.literal("approved iLIKE :search"), 
 			sequelize.literal("reason iLIKE :search"), 
