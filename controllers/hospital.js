@@ -141,11 +141,6 @@ router.post('/add/' ,
 		body('email').not().isEmpty().isEmail(),
 		body('password').not().isEmpty(),
 		body('confirm_password', 'Passwords do not match').custom((value, {req}) => (value === req.body.password)),
-		body('bank_details_account_no').optional(),
-		body('bank_details_bank_name').optional(),
-		body('bank_details_ifsc_code').optional(),
-		body('bank_details_payee_name').optional(),
-		body('subvention_rate').optional(),
 	]
 , async function (req, res) {
 	try{

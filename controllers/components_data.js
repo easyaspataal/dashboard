@@ -163,8 +163,8 @@ queryParams['HID'] = req.user.hid;
 		let dataset1 = {
 			data: records.map(function(v){ return parseFloat(v.initiateamount) }),
 			label: "Amount",
-			backgroundColor: "#0c065e", 
-			borderColor: "#0c065e", 
+			backgroundColor: "#0077b5", 
+			borderColor: "#0077b5", 
 			borderWidth: "",
 		};
 		chartData.datasets.push(dataset1);
@@ -244,7 +244,7 @@ router.get('/ttt_data_component', async (req, res) => {
  */
 router.get('/patient_list_data_repeater', async (req, res) => {
 	try{
-		let sqltext = `SELECT initiatetreatment as initiatetreatment, initiateamount as initiateamount, email_id as email_id, contact as contact,patient_name as patient_name, _id as _id FROM users WHERE hid=:HID` ;
+		let sqltext = `SELECT initiatetreatment as initiatetreatment, initiateamount as initiateamount, email_id as email_id, contact as contact,patient_name as patient_name, _id as _id FROM users  WHERE  hid=:HID ORDER BY created_date DESC` ;
 		let queryParams = {};
 		queryParams['HID'] = req.user.hid;
 		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
@@ -491,36 +491,26 @@ axios(config)
         console.log(error)
     }
 });
-/**
- * Custom route
- * @param {callback} middleware - Express middleware.
- */
  router.post('/otpmail', async (req, res) => {  
     try{
+        let axios = require("axios");
         console.log(req.body)
-        let mailer = require('../helpers/mailer.js');
-        let mailtitle = "OTP VERIFICATION";
-        let mailbody = req.body.otp;
-        let recipient = "sampat@easyaspataal.com";
-        let mailResult = await mailer.sendMail(recipient, mailtitle , mailbody);
-        if(mailResult.messageId){
-            console.log("Email Sent");
-        }
-        else{
-            console.log(mailResult.error);
-        }
+        let email = req.body.email_id; //prayag@easyaspataal.com
+        let url = "https://bk2-7k5qcren2q-el.a.run.app/admin/emailotp?email="+req.body.email_id
+        let response = await axios.post(url);
+        console.log(response.data);
+        return res.ok(response.data);
     }
     catch(error){
         console.log(error)
     }
-});
-router.post('/collection', async (req, res) => {
+});router.post('/collection', async (req, res) => {
     try{
         let axios = require("axios");
         console.log(req.body.start);
 var config = {
   method: 'get',
-  url: 'http://easylos.atlassian.net/rest/api/2/search?jql=status!="Ignore%20Mails"&reporter='+`'${req.body.email}'`,
+  url: 'http://easylos.atlassian.net/rest/api/2/search?jql=status!="Ignore%20Mails"&reporter='+`'${req.body.email}'`+'&maxResults=100',
   headers: {
     'Authorization': 'Basic Y2hpcmFnQGVhc3lhc3BhdGFhbC5jb206RngzaHZOeXpzWmRQZjRNcmtzN0s5RUUw'
   }
@@ -531,16 +521,33 @@ axios(config)
     var datearr = [];
     var keyarr = [];
     var statusarr = [];
+    var summarray = [];
+   var todayDate = new Date().toISOString().slice(0, 10); 
     response.data.issues.map((issue, index) => {
-const amountresult = issue.fields.customfield_10182
-amountarr.push(amountresult)
-const dateresult = issue.fields.customfield_10090
+  if(issue.fields.customfield_10182 != null && issue.fields.customfield_10182 > 0){
+  amountarr.push(issue.fields.customfield_10182);
+  summarray.push(issue.fields.customfield_10182)
+  }else{
+     amountarr.push(0);  
+  }
+if(issue.fields.customfield_10055 != null){
+    var dateresult = +todayDate.replace('-', '').replace('-', '') - +issue.fields.customfield_10055.replace('-', '').replace('-', '')  
+  }else {
+  var dateresult = issue.fields.customfield_10055  
+  }
 datearr.push(dateresult)
  const keyresult = issue.key;
  keyarr.push(keyresult)
- const statusresult = issue.fields.status.name;
- statusarr.push(statusresult);
+ if(issue.fields.customfield_10382 == null){
+     statusarr.push('Not Updated') 
+     }else{
+        statusarr.push(issue.fields.customfield_10382.value) 
+     }
     })
+ let sum = 0;
+    for(let i = 0; i<summarray.length; i++){
+      sum+=summarray[i];
+    }
 var items = keyarr.map((keyarr, index) => {
     return { 
       key: keyarr,
@@ -552,10 +559,104 @@ var items = keyarr.map((keyarr, index) => {
     const result = {
     code: 200,
     status: true,
-    message:items
+    message:items,
+    sumresult: sum
 }
 res.json(result);
-console.log("rendeing");
+})
+.catch(function (error) {
+  console.log(error);
+});
+    }
+    catch(err) {
+        return res.serverError(err);
+    }
+});router.post('/createcalcissue', async (req, res) => {  
+    try{
+        console.log('tested')
+        let axios = require("axios");
+var data = JSON.stringify({
+  "fields": {
+  "customfield_10041":req.body.name,
+  "customfield_10107":req.body.contact,
+  "customfield_10185":req.body.email,
+  "customfield_10231":req.body.pin,
+  "customfield_10231":req.body.pan,
+  "customfield_10069":req.body.policyn,
+  "customfield_10103":req.body.dob,
+  "customfield_10182":req.body.paylater,
+  "customfield_10067":req.body.hospitalname,
+    "project": {
+      "key": "CLAIM"
+    },
+  "summary": req.body.hospitalname + " Lead",
+    "issuetype": {
+    "name": "Task"
+    }
+  }
+});
+var config = {
+  method: 'post',
+  url: 'https://easylos.atlassian.net/rest/api/2/issue/',
+  headers: { 
+    'Authorization': 'Basic Y2hpcmFnQGVhc3lhc3BhdGFhbC5jb206RngzaHZOeXpzWmRQZjRNcmtzN0s5RUUw', 
+    'Content-Type': 'application/json', 
+    'Cookie': 'atlassian.xsrf.token=2320118d-6d73-4369-addd-eae328a4f16c_d8a942fe101fb24f812bf389468d459b73e7c490_lin'
+  },
+  data : data
+};
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+    }
+    catch(error){
+        console.log(error)
+    }
+});router.post('/calendar', async (req, res) => {
+    try{
+        let axios = require("axios");
+        console.log(req.body);
+var config = {
+  method: 'get',
+  url: 'http://easylos.atlassian.net/rest/api/2/search?jql="Disbursement%20Date%5BDate%5D"%20>%3D%20"'+req.body.from+'"%20AND%20"Disbursement%20Date%5BDate%5D"%20<%3D%20'+req.body.to+'%20order%20by%20created%20DESC&status!="Ignore%20Mails"&reporter='+`'${req.body.email}'`+'&maxResults=100',
+  headers: {
+    'Authorization': 'Basic Y2hpcmFnQGVhc3lhc3BhdGFhbC5jb206RngzaHZOeXpzWmRQZjRNcmtzN0s5RUUw'
+  }
+};
+axios(config)
+.then(function (response) {
+    var amountarr = [];
+    var datearr = [];
+    var keyarr = [];
+    var patientarr = [];
+    response.data.issues.map((issue, index) => {
+        const amountresult = issue.fields.customfield_10182;
+        amountarr.push(amountresult)
+        const dateresult = issue.fields.customfield_10090;
+        datearr.push(dateresult)
+        const patientresult = issue.fields.customfield_10040;
+        patientarr.push(patientresult)
+ const keyresult = issue.key;
+ keyarr.push(keyresult)
+})
+var items = keyarr.map((keyarr, index) => {
+    return { 
+      key: keyarr,
+      amount : amountarr[index],
+      date: datearr[index],
+      patient: patientarr[index]
+    }
+  });
+    const result = {
+    code: 200,
+    status: true,
+    message:items,
+}
+res.json(result);
 })
 .catch(function (error) {
   console.log(error);
