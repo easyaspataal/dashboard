@@ -573,7 +573,6 @@ res.json(result);
     }
 });router.post('/createcalcissue', async (req, res) => {  
     try{
-        console.log('tested')
         let axios = require("axios");
 var data = JSON.stringify({
   "fields": {
@@ -582,10 +581,10 @@ var data = JSON.stringify({
   "customfield_10185":req.body.email,
   "customfield_10231":req.body.pin,
   "customfield_10231":req.body.pan,
-  "customfield_10069":req.body.policyn,
   "customfield_10103":req.body.dob,
   "customfield_10182":req.body.paylater,
-  "customfield_10067":req.body.hospitalname,
+  "customfield_10448":req.body.reporter,
+  "customfield_10104":req.body.aadharn,
     "project": {
       "key": "CLAIM"
     },
