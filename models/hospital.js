@@ -15,7 +15,9 @@ class Hospital extends BaseModel {
 				bank_details_bank_name: {name: 'bank_details_bank_name', type:Sequelize.STRING},
 				bank_details_ifsc_code: {name: 'bank_details_ifsc_code', type:Sequelize.STRING},
 				bank_details_payee_name: {name: 'bank_details_payee_name', type:Sequelize.STRING},
-				subvention_rate: {name: 'subvention_rate', type:Sequelize.STRING}
+				subvention_rate: {name: 'subvention_rate', type:Sequelize.STRING},
+				created_date: {name: 'created_date', type:Sequelize.DATE},
+				logged_in: {name: 'logged_in', type:Sequelize.STRING}
 			}, 
 			{ 
 				sequelize,
@@ -38,7 +40,9 @@ class Hospital extends BaseModel {
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
 			'bank_details_payee_name', 
-			'subvention_rate'
+			'subvention_rate', 
+			'created_date', 
+			'logged_in'
 		];
 	}
 
@@ -54,7 +58,9 @@ class Hospital extends BaseModel {
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
 			'bank_details_payee_name', 
-			'subvention_rate'
+			'subvention_rate', 
+			'created_date', 
+			'logged_in'
 		];
 	}
 
@@ -70,7 +76,9 @@ class Hospital extends BaseModel {
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
 			'bank_details_payee_name', 
-			'subvention_rate'
+			'subvention_rate', 
+			'created_date', 
+			'logged_in'
 		];
 	}
 
@@ -86,7 +94,9 @@ class Hospital extends BaseModel {
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
 			'bank_details_payee_name', 
-			'subvention_rate'
+			'subvention_rate', 
+			'created_date', 
+			'logged_in'
 		];
 	}
 
@@ -102,7 +112,9 @@ class Hospital extends BaseModel {
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
 			'bank_details_payee_name', 
-			'subvention_rate'
+			'subvention_rate', 
+			'created_date', 
+			'logged_in'
 		];
 	}
 
@@ -118,7 +130,9 @@ class Hospital extends BaseModel {
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
 			'bank_details_payee_name', 
-			'subvention_rate'
+			'subvention_rate', 
+			'created_date', 
+			'logged_in'
 		];
 	}
 
@@ -134,7 +148,9 @@ class Hospital extends BaseModel {
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
 			'bank_details_payee_name', 
-			'subvention_rate'
+			'subvention_rate', 
+			'created_date', 
+			'logged_in'
 		];
 	}
 
@@ -149,7 +165,9 @@ class Hospital extends BaseModel {
 			'bank_details_bank_name', 
 			'bank_details_ifsc_code', 
 			'bank_details_payee_name', 
-			'subvention_rate'
+			'subvention_rate', 
+			'created_date', 
+			'logged_in'
 		];
 	}
 

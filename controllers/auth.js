@@ -130,6 +130,11 @@ router.post('/login', [
 			return res.unauthorized("Username or password not correct");
 		}
 		let loginData = await getUserLoginData(user);
+		let where = {'hid': username};
+    let modeldata = {
+        logged_in:new Date().toLocaleString().replace('/', '-').replace('/', '-').replace(',', ' ') 
+    }
+    let newUser = await Hospital.update(modeldata, {where: where});
 		return res.ok(loginData);
 	}
 	catch(err){
@@ -150,6 +155,8 @@ router.post('/register',
 		body('email').not().isEmpty().isEmail(),
 		body('password').not().isEmpty(),
 		body('confirm_password', 'Passwords do not match').custom((value, {req}) => (value === req.body.password)),
+		body('created_date').optional(),
+		body('logged_in').optional(),
 	]
 , async function (req, res) {
 	try{

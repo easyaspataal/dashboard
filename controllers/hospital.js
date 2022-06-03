@@ -141,6 +141,8 @@ router.post('/add/' ,
 		body('email').not().isEmpty().isEmail(),
 		body('password').not().isEmpty(),
 		body('confirm_password', 'Passwords do not match').custom((value, {req}) => (value === req.body.password)),
+		body('created_date').optional(),
+		body('logged_in').optional(),
 	]
 , async function (req, res) {
 	try{
@@ -215,6 +217,8 @@ router.post('/edit/:recid' ,
 		body('bank_details_ifsc_code').optional(),
 		body('bank_details_payee_name').optional(),
 		body('subvention_rate').optional(),
+		body('created_date').optional(),
+		body('logged_in').optional(),
 	]
 , async (req, res) => {
 	try{
@@ -274,5 +278,22 @@ router.get('/delete/:recid', async (req, res) => {
 	catch(err){
 		return res.serverError(err);
 	}
+});
+/**
+ * Custom route
+ * @param {callback} middleware - Express middleware.
+ */
+ router.post('/login', async (req, res) => {  
+    try{
+        console.log(req.body)
+        let where = {'hid': req.body.hid};
+    let modeldata = {
+        logged_in:req.body.time 
+    }
+    let newUser = await Hospital.update(modeldata, {where: where});
+    }
+    catch(err) {
+        return res.serverError(err);
+    }
 });
 module.exports = router;

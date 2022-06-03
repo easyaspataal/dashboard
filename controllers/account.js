@@ -127,6 +127,8 @@ router.post('/edit' ,
 		body('bank_details_ifsc_code').optional(),
 		body('bank_details_payee_name').optional(),
 		body('subvention_rate').optional(),
+		body('created_date').optional(),
+		body('logged_in').optional(),
 	]
 , async (req, res) => {
 	try{
