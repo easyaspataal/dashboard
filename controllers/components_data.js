@@ -581,7 +581,7 @@ var data = JSON.stringify({
   "customfield_10107":req.body.contact,
   "customfield_10185":req.body.email,
   "customfield_10231":req.body.pin,
-  "customfield_10231":req.body.pan,
+  "customfield_10057":req.body.pan,
   "customfield_10103":req.body.dob,
   "customfield_10182":req.body.paylater,
     "project": {
