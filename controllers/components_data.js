@@ -576,7 +576,7 @@ res.json(result);
         let axios = require("axios");
 var data = JSON.stringify({
   "fields": {
-  "customfield_10448":req.body.reporter,
+"customfield_10448":req.body.reporter,
   "customfield_10041":req.body.name,
   "customfield_10107":req.body.contact,
   "customfield_10185":req.body.email,
@@ -584,6 +584,12 @@ var data = JSON.stringify({
   "customfield_10057":req.body.pan,
   "customfield_10103":req.body.dob,
   "customfield_10182":req.body.paylater,
+  "customfield_10419":req.body.estimatedamnt,
+  "customfield_10104":req.body.aadharn,
+"customfield_10129" : { "value": req.body.copay },
+"customfield_10271" : { "value": req.body.policytype },
+"customfield_10047" :+req.body.sumasured,
+"customfield_10135" : { "value": req.body.treatmtype },
     "project": {
       "key": "CLAIM"
     },
