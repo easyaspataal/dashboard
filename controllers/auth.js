@@ -130,11 +130,6 @@ router.post('/login', [
 			return res.unauthorized("Username or password not correct");
 		}
 		let loginData = await getUserLoginData(user);
-		let where = {'hid': username};
-    let modeldata = {
-        logged_in:new Date().toLocaleString().replace('/', '-').replace('/', '-').replace(',', ' ') 
-    }
-    let newUser = await Hospital.update(modeldata, {where: where});
 		return res.ok(loginData);
 	}
 	catch(err){

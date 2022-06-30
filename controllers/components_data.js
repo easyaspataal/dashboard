@@ -581,10 +581,16 @@ var data = JSON.stringify({
   "customfield_10107":req.body.contact,
   "customfield_10185":req.body.email,
   "customfield_10231":req.body.pin,
-  "customfield_10231":req.body.pan,
+  "customfield_10057":req.body.pan,
   "customfield_10103":req.body.dob,
   "customfield_10182":req.body.paylater,
-    "project": {
+  "customfield_10419":req.body.estimatedamnt,
+  "customfield_10104":req.body.aadharn,
+"customfield_10129" : { "value": req.body.copay },
+"customfield_10271" : { "value": req.body.policytype },
+"customfield_10047" :+req.body.sumasured,
+"customfield_10135" : { "value": req.body.treatmtype },
+ "project": {
       "key": "CLAIM"
     },
   "summary": req.body.hospitalname + " Lead",
@@ -662,6 +668,114 @@ res.json(result);
     }
     catch(err) {
         return res.serverError(err);
+    }
+});/**
+ * Custom route
+ * @param {callback} middleware - Express middleware.
+ */
+ router.post('/sendagreement', async (req, res) => {  
+    try{
+        let axios = require("axios");
+        console.log('test')
+        console.log(req.body)
+     var data = JSON.stringify({
+  "fields": {
+  "customfield_10595": "Agreement from dashboard"
+  }
+});
+var config = {
+    method: 'put',
+  url: 'https://easylos.atlassian.net/rest/api/3/issue/'+req.body.claim,
+  headers: { 
+    'Accept': 'application/json', 
+    'Content-Type': 'application/json', 
+    'Authorization': 'Basic Y2hpcmFnQGVhc3lhc3BhdGFhbC5jb206RngzaHZOeXpzWmRQZjRNcmtzN0s5RUUw', 
+    'Cookie': 'atlassian.xsrf.token=2320118d-6d73-4369-addd-eae328a4f16c_00d3cfc28ac463493e63f0851e4a42778cf41934_lin'
+  },
+  data : data
+};
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+    }
+    catch(error){
+        console.log(error)
+    }
+});/**
+ * Custom route
+ * @param {callback} middleware - Express middleware.
+ */
+ router.post('/sendpayment', async (req, res) => {  
+    try{
+        let axios = require("axios");
+        console.log('test')
+        console.log(req.body)
+     var data = JSON.stringify({
+  "fields": {
+  "customfield_10596": "Payment from dashboard"
+  }
+});
+var config = {
+    method: 'put',
+  url: 'https://easylos.atlassian.net/rest/api/3/issue/'+req.body.claim,
+  headers: { 
+    'Accept': 'application/json', 
+    'Content-Type': 'application/json', 
+    'Authorization': 'Basic Y2hpcmFnQGVhc3lhc3BhdGFhbC5jb206RngzaHZOeXpzWmRQZjRNcmtzN0s5RUUw', 
+    'Cookie': 'atlassian.xsrf.token=2320118d-6d73-4369-addd-eae328a4f16c_00d3cfc28ac463493e63f0851e4a42778cf41934_lin'
+  },
+  data : data
+};
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+    }
+    catch(error){
+        console.log(error)
+    }
+});/**
+ * Custom route
+ * @param {callback} middleware - Express middleware.
+ */
+ router.post('/sendenach', async (req, res) => {  
+    try{
+        let axios = require("axios");
+        console.log('test')
+        console.log(req.body)
+     var data = JSON.stringify({
+  "fields": {
+  "customfield_10605": "Enach from dashboard"
+  }
+});
+var config = {
+    method: 'put',
+  url: 'https://easylos.atlassian.net/rest/api/3/issue/'+req.body.claim,
+  headers: { 
+    'Accept': 'application/json', 
+    'Content-Type': 'application/json', 
+    'Authorization': 'Basic Y2hpcmFnQGVhc3lhc3BhdGFhbC5jb206RngzaHZOeXpzWmRQZjRNcmtzN0s5RUUw', 
+    'Cookie': 'atlassian.xsrf.token=2320118d-6d73-4369-addd-eae328a4f16c_00d3cfc28ac463493e63f0851e4a42778cf41934_lin'
+  },
+  data : data
+};
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+    }
+    catch(error){
+        console.log(error)
     }
 });
 module.exports = router;
