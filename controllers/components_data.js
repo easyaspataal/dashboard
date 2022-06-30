@@ -590,12 +590,8 @@ var data = JSON.stringify({
 "customfield_10271" : { "value": req.body.policytype },
 "customfield_10047" :+req.body.sumasured,
 "customfield_10135" : { "value": req.body.treatmtype },
-<<<<<<< HEAD
- "project": {
-=======
 "customfield_10601":"Hospital Dashboard Calculator",
     "project": {
->>>>>>> 1825b60bf5ad747caceab5b9069d90a876caa4e9
       "key": "CLAIM"
     },
   "summary": req.body.hospitalname + " Lead",
