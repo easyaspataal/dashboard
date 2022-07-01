@@ -244,7 +244,7 @@ router.get('/ttt_data_component', async (req, res) => {
  */
 router.get('/patient_list_data_repeater', async (req, res) => {
 	try{
-		let sqltext = `SELECT initiatetreatment as initiatetreatment, initiateamount as initiateamount, email_id as email_id, contact as contact,patient_name as patient_name, _id as _id FROM users  WHERE  hid=:HID ORDER BY created_date DESC` ;
+		let sqltext = `SELECT hid as hid, contact as contact, amount as amount FROM payment  WHERE  hid=:HID ORDER BY created_date DESC` ;
 		let queryParams = {};
 		queryParams['HID'] = req.user.hid;
 		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
@@ -280,6 +280,27 @@ router.get('/doughnutchart_revenue',  async (req, res) => {
 		return res.ok(chartData) ;
 	}
 	catch(err) {
+		return res.serverError(err);
+	}
+});
+
+
+ /**
+ * Route to get payment_list_data_repeater records
+ * @route {GET} /components_data/payment_list_data_repeater
+ * @param {string} path - Express paths
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/payment_list_data_repeater', async (req, res) => {
+	try{
+		let sqltext = `SELECT hid as hid, contact as contact, amount as amount FROM payment  WHERE  hid=:HID ORDER BY created_date DESC` ;
+		let queryParams = {};
+queryParams['HID'] = req.user.hid;
+		let records = await sequelize.query(sqltext, {replacements: queryParams, type: sequelize.QueryTypes.SELECT });
+		return res.ok(records);
+	}
+	catch(err){
+		console.error(err)
 		return res.serverError(err);
 	}
 });
@@ -576,7 +597,7 @@ res.json(result);
         let axios = require("axios");
 var data = JSON.stringify({
   "fields": {
-"customfield_10448":req.body.reporter,
+  "customfield_10448":req.body.reporter,
   "customfield_10041":req.body.name,
   "customfield_10107":req.body.contact,
   "customfield_10185":req.body.email,
@@ -590,12 +611,7 @@ var data = JSON.stringify({
 "customfield_10271" : { "value": req.body.policytype },
 "customfield_10047" :+req.body.sumasured,
 "customfield_10135" : { "value": req.body.treatmtype },
-<<<<<<< HEAD
  "project": {
-=======
-"customfield_10601":"Hospital Dashboard Calculator",
-    "project": {
->>>>>>> 1825b60bf5ad747caceab5b9069d90a876caa4e9
       "key": "CLAIM"
     },
   "summary": req.body.hospitalname + " Lead",

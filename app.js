@@ -57,6 +57,7 @@ app.use('/api', async (req, res, next) => {
 app.use('/api/account', require('./controllers/account.js'));
 app.use('/api/hospital', require('./controllers/hospital.js'))
 app.use('/api/hospitalss', require('./controllers/hospitalss.js'))
+app.use('/api/payment', require('./controllers/payment.js'))
 app.use('/api/users', require('./controllers/users.js'))
 app.get('*', function(req, res){
     res.status(404).json("Page not found");
