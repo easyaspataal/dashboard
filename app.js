@@ -57,13 +57,15 @@ app.use('/api', async (req, res, next) => {
 app.use('/api/account', require('./controllers/account.js'));
 app.use('/api/hospital', require('./controllers/hospital.js'))
 app.use('/api/hospitalss', require('./controllers/hospitalss.js'))
+app.use('/api/insurance', require('./controllers/insurance.js'))
 app.use('/api/payment', require('./controllers/payment.js'))
+app.use('/api/surgery', require('./controllers/surgery.js'))
 app.use('/api/users', require('./controllers/users.js'))
 app.get('*', function(req, res){
     res.status(404).json("Page not found");
 });
 
-let port = 7015;
+let port = 8060;
 //start app
 app.listen(port, () => {
     console.log('Server is up and running on port: ' + port);

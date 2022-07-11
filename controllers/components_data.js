@@ -611,12 +611,8 @@ var data = JSON.stringify({
 "customfield_10271" : { "value": req.body.policytype },
 "customfield_10047" :+req.body.sumasured,
 "customfield_10135" : { "value": req.body.treatmtype },
-<<<<<<< HEAD
- "project": {
-=======
 "customfield_10601":"Hospital Dashboard Calculator",
-    "project": {
->>>>>>> 3ca386872c415cc66026c0f708643aa04f5eeaf1
+ "project": {
       "key": "CLAIM"
     },
   "summary": req.body.hospitalname + " Lead",
@@ -799,6 +795,22 @@ axios(config)
 .catch(function (error) {
   console.log(error);
 });
+    }
+    catch(error){
+        console.log(error)
+    }
+});
+/**
+ * Custom route
+ * @param {callback} middleware - Express middleware.
+ */
+ router.post('/inurancemail', async (req, res) => {  
+    try{
+        let axios = require("axios");
+        let email = req.body.email; //prayag@easyaspataal.com
+        let url = "http://localhost:8080/admin/insurancemail?email="+email;
+        let response = await axios.post(url);
+        return res.ok(response.data);
     }
     catch(error){
         console.log(error)

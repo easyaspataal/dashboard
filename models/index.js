@@ -29,7 +29,9 @@ Sequelize.DATE.prototype._stringify = function _stringify(date, options) {
 
 const Hospital =  require("./hospital").init(sequelize, Sequelize);
 const Hospitalss =  require("./hospitalss").init(sequelize, Sequelize);
+const Insurance =  require("./insurance").init(sequelize, Sequelize);
 const Payment =  require("./payment").init(sequelize, Sequelize);
+const Surgery =  require("./surgery").init(sequelize, Sequelize);
 const Users =  require("./users").init(sequelize, Sequelize);
 
 const Op = Sequelize.Op;
@@ -38,6 +40,8 @@ module.exports = {
 	Op,
 	Hospital,
 	Hospitalss,
+	Insurance,
 	Payment,
+	Surgery,
 	Users
 }
